@@ -1396,6 +1396,29 @@ body.altmode .pin2 .lbl2{display:none}body.altmode .pin2.sel .lbl2{display:block
 .rptbtn{position:absolute;left:16px;top:46%;height:56px;padding:0 18px 0 14px;border-radius:99px;background:#101114;border:1px solid #26272b;color:#fff;display:flex;align-items:center;gap:8px;font:700 13px Montserrat,sans-serif;z-index:5;box-shadow:0 6px 16px rgba(0,0,0,.35)}
 .rptbtn svg{width:20px;height:20px;color:#F34E3A}
 @media (prefers-reduced-motion:reduce){.ask{transition:none}}
+
+/* ---------- fone de ouvido ---------- */
+.fstat{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;background:#1b1c20;margin:6px 0 12px}
+.fstat .fdot{width:12px;height:12px;border-radius:50%;background:#55565c;flex:none;box-shadow:0 0 0 4px rgba(85,86,92,.2)}
+.fstat.on .fdot{background:#2fbf71;box-shadow:0 0 0 4px rgba(47,191,113,.22)}
+.fstat b{display:block;font-size:15px;color:#fff}.fstat small{display:block;color:#8a8b90;font-size:12px;margin-top:2px}
+.fconn{width:100%}
+.fopts{display:flex;flex-direction:column;gap:8px}
+.fopt{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:#1b1c20;color:#fff;text-align:left;border:1.5px solid transparent;width:100%}
+.fopt .fi{width:40px;height:40px;border-radius:12px;background:#26272c;display:grid;place-items:center;flex:none;color:#F34E3A}
+.fopt .fi svg{width:22px;height:22px}
+.fopt b{display:block;font-size:14px}.fopt small{display:block;color:#8a8b90;font-size:12px;margin-top:2px;line-height:1.35}
+.fopt .ck{margin-left:auto;font-style:normal;color:#F34E3A;font-weight:800;opacity:0}
+.fopt.on{border-color:#F34E3A}.fopt.on .ck{opacity:1}
+#foneHelp[hidden]{display:none}
+.ftest{margin-top:14px}.ftest .btn{width:100%}
+.fmeter{height:6px;border-radius:9px;background:#26272c;margin-top:10px;overflow:hidden}
+.fmeter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2fbf71,#F34E3A);transition:width .08s}
+.micpill{position:absolute;left:16px;top:calc(46% - 46px);height:34px;padding:0 14px 0 12px;border-radius:99px;background:rgba(16,17,20,.92);border:1px solid #26272b;color:#fff;display:flex;align-items:center;gap:8px;font:700 12px Montserrat,sans-serif;z-index:5}
+.micpill[hidden]{display:none}
+.micpill i{width:8px;height:8px;border-radius:50%;background:#F34E3A;animation:mp 1.2s infinite}
+@keyframes mp{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.micpill i{animation:none}}
 </style>
 </head>
 <body>
@@ -1509,6 +1532,7 @@ body.altmode .pin2 .lbl2{display:none}body.altmode .pin2.sel .lbl2{display:block
       <div class="rstat"><small>Ritmo médio</small><b id="rvAvg">--</b></div>
     </div>
     <button class="sosbtn" id="sosBtn" aria-label="Corra Segura: segure por 2 segundos"><svg class="rg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/></svg><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 20 5v6.5c0 5-3.4 9.3-8 10.5-4.6-1.2-8-5.5-8-10.5V5z"/></svg></button><div class="soshint" id="sosHint">Segure 2 segundos</div>
+    <div class="micpill" id="micPill" hidden><i></i>Ouvindo</div>
     <button class="rptbtn" id="rptBtn" aria-label="Reportar o que tem aqui"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Reportar</span></button>
     <div class="rbtns">
       <button class="rb water" id="rvWater"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3s6.5 7 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10 12 3 12 3z"/></svg>Água</button>
@@ -1577,8 +1601,26 @@ body.altmode .pin2 .lbl2{display:none}body.altmode .pin2.sel .lbl2{display:block
     <button data-s="on"><span class="si" data-icon="on"></span><div><b>Som ligado</b><small>Avisa tudo: pontos, curvas e cada km</small></div><i class="ck">✓</i></button>
     <button data-s="alerts"><span class="si" data-icon="alerts"></span><div><b>Só alertas</b><small>Só pontos de apoio e curvas</small></div><i class="ck">✓</i></button>
     <button data-s="off"><span class="si" data-icon="off"></span><div><b>Mudo</b><small>Nenhum aviso falado</small></div><i class="ck">✓</i></button>
+    <button class="vlink" id="spFone"><span class="si">🎧</span><div><b>Fone de ouvido</b><small id="spFoneName">Conectar fone</small></div><i>›</i></button>
     <button class="vlink" id="spVoice"><span class="si">🗣️</span><div><b>Voz e personagem</b><small id="spVoiceName">Parceiro</small></div><i>›</i></button>
   </div>
+
+  <div class="sheet" id="shFone"><div class="box">
+    <div class="grab"></div>
+    <h4>Fone de ouvido</h4>
+    <p class="lead">Conecte seu fone e escolha por onde o Pit Stop te escuta.</p>
+    <div class="fstat" id="foneSt"><span class="fdot"></span><div><b id="foneName">Nenhum fone conectado</b><small id="foneMsg">Toque em Conectar fone</small></div></div>
+    <button class="btn pri one fconn" id="foneConn">Conectar fone</button>
+    <p class="hint" id="foneHelp" hidden>Abra o Bluetooth do celular e ligue o fone. Assim que ele conectar, o Pit Stop reconhece sozinho.</p>
+    <div class="sec">Como você quer falar com o app</div>
+    <div class="fopts">
+      <button class="fopt" data-m="fone"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4.5" height="6.5" rx="2" fill="currentColor"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="2" fill="currentColor"/><path d="M20 19.5c0 1.5-2 2.5-5 2.5"/></svg></span><div><b>Ouvir e falar pelo fone</b><small>O microfone do fone pega sua voz e manda pro celular</small></div><i class="ck">✓</i></button>
+      <button class="fopt" data-m="celular"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><div><b>Ouvir no fone, falar no celular</b><small>O fone só toca os avisos e o celular escuta sua voz</small></div><i class="ck">✓</i></button>
+    </div>
+    <label class="toggle"><div>Comandos de voz na corrida<small>Diga "Pit Stop, onde tem água?" ou responda "tem" e "não tem"</small></div><span class="sw"><input type="checkbox" id="foneCmd"><span></span></span></label>
+    <div class="ftest"><button class="btn one" id="foneTest">Testar fone e microfone</button><div class="fmeter"><i id="foneLvl"></i></div><p class="hint" id="foneTestMsg"></p></div>
+    <div class="btns"><button class="btn pri one" data-close>Pronto</button></div>
+  </div></div>
 
   <div class="sheet" id="shSearch"><div class="box">
     <div class="grab"></div>
@@ -2383,7 +2425,7 @@ async function startRun(){
   try{wake=await navigator.wakeLock.request('screen');}catch(e){}
   timer=setInterval(updateHeader,500);
   if(!roadRaf)roadRaf=requestAnimationFrame(drawRoad);
-  say('start');
+  say('start');recOn=true;startCmd();
   if(st.pos&&!st.sim)onRunTick(st.pos);
   if(st.sim){toast({emoji:'🏃',bg:'#e7e8fb'},'Sem GPS',`Simulando uma corrida pelo centro de ${CITY}`);simulate();}
   updateHeader();
@@ -2396,7 +2438,7 @@ function showRunView(on){st.view=on?'nav':'map';document.body.classList.toggle('
   setTimeout(()=>{map.invalidateSize();if(on){const m=me();map.setView([m.lat,m.lon],17);}},60);
 }
 function stopRun(){
-  st.running=false;clearInterval(timer);clearInterval(simT);cancelAnimationFrame(roadRaf);roadRaf=null;roadLast=0;
+  stopCmd();st.running=false;clearInterval(timer);clearInterval(simT);cancelAnimationFrame(roadRaf);roadRaf=null;roadLast=0;
   try{wake&&wake.release();}catch(e){}wake=null;
   $('nRun').classList.remove('running');$('runIcon').innerHTML='<path d="M8 5.5v13l11-6.5z"/>';$('runLbl').textContent='Correr';
   showRunView(false);$('minirun').classList.remove('show');
@@ -2413,6 +2455,12 @@ $('rvMap').onclick=()=>showRunView(false);
 $('minirun').onclick=()=>showRunView(true);
 $('rvWater').onclick=()=>waterNow();
 $('rptBtn').onclick=()=>askReport();
+$('spFone').onclick=()=>{$('soundpop').classList.remove('show');renderFone();openSheet('shFone');scanFone(false);};
+$('foneConn').onclick=()=>{$('foneHelp').hidden=false;scanFone(true);};
+document.querySelectorAll('.fopt').forEach(b=>b.onclick=()=>{FONE.mode=b.dataset.m;saveFone();renderFone();});
+$('foneCmd').onchange=e=>{FONE.cmd=e.target.checked;saveFone();if(!FONE.cmd)stopCmd();else if(st.running){recOn=true;startCmd();}};
+$('foneTest').onclick=()=>testFone();
+setTimeout(()=>{renderFone();scanFone(false);},0);
 function onRunTick(p){
   const t=clock(),last=st.trail[st.trail.length-1];
   if(last){const d=dist(last,p);if(d<3)return;if(d<200)st.dist+=d;}
@@ -2721,6 +2769,96 @@ function askReport(){
     askThanks(`${label} adicionado no mapa`);
   });
 }
+
+/* ---------- fone de ouvido: conecta, escolhe microfone e escuta comandos ---------- */
+const HEAD_RX=/fone|airpods|buds|headset|headphone|bluetooth|hands.?free|jbl|beats|sony|wh-|wf-|qcy|edifier|earphone|earbud|soundcore|xiaomi|redmi|galaxy/i;
+const FONE={dev:null,mic:null,phoneMic:null,mode:'fone',cmd:true,was:false};
+try{Object.assign(FONE,JSON.parse(localStorage.getItem('pitstop_fone')||'{}'));}catch(e){}
+function saveFone(){try{localStorage.setItem('pitstop_fone',JSON.stringify({mode:FONE.mode,cmd:FONE.cmd}));}catch(e){}}
+const cleanName=l=>(l||'Fone').replace(/\s*\((Bluetooth|[0-9a-f]{4}:[0-9a-f]{4})\)/ig,'').replace(/^(Default|Padrão|Communications)\s*-\s*/i,'').trim();
+function renderFone(msg){
+  const on=!!FONE.dev;
+  $('foneSt').classList.toggle('on',on);
+  $('foneName').textContent=on?cleanName(FONE.dev.label):'Nenhum fone conectado';
+  $('foneMsg').textContent=msg||(on?(FONE.mic?'Microfone do fone disponível':'Fone sem microfone: o celular escuta sua voz'):'Toque em Conectar fone');
+  $('foneConn').textContent=on?'Procurar de novo':'Conectar fone';
+  if(on)$('foneHelp').hidden=true;
+  $('spFoneName').textContent=on?cleanName(FONE.dev.label):'Conectar fone';
+  document.querySelectorAll('.fopt').forEach(b=>b.classList.toggle('on',b.dataset.m===FONE.mode));
+  $('foneCmd').checked=!!FONE.cmd;
+}
+async function scanFone(ask){
+  const md=navigator.mediaDevices;
+  if(!md||!md.enumerateDevices){renderFone('Este navegador não mostra os fones conectados');return;}
+  if(ask){try{const s=await md.getUserMedia({audio:true});s.getTracks().forEach(t=>t.stop());}catch(e){renderFone('Libere o microfone pra eu achar seu fone');return;}}
+  let ds=[];try{ds=await md.enumerateDevices();}catch(e){}
+  const ins=ds.filter(d=>d.kind==='audioinput'),outs=ds.filter(d=>d.kind==='audiooutput');
+  FONE.mic=ins.find(d=>HEAD_RX.test(d.label))||null;
+  FONE.phoneMic=ins.find(d=>d.label&&!HEAD_RX.test(d.label)&&d.deviceId!=='communications')||null;
+  FONE.dev=outs.find(d=>HEAD_RX.test(d.label))||FONE.mic||null;
+  const now=!!FONE.dev;
+  if(now&&!FONE.was){toast({emoji:'🎧',bg:'#e1f6ea'},'Fone conectado',cleanName(FONE.dev.label));speak('Fone conectado. Pode correr que eu te aviso por aqui.');}
+  if(!now&&FONE.was)toast({emoji:'🎧',bg:'#fde8e5'},'Fone desconectado','Os avisos voltam pro alto-falante');
+  FONE.was=now;$('foneHelp').hidden=now;renderFone();
+}
+if(navigator.mediaDevices&&navigator.mediaDevices.addEventListener)navigator.mediaDevices.addEventListener('devicechange',()=>scanFone(false));
+async function testFone(){
+  const msg=$('foneTestMsg'),lvl=$('foneLvl');
+  speak('Oi! Fale alguma coisa pra eu testar o microfone.',true);
+  const pick=FONE.mode==='fone'?FONE.mic:FONE.phoneMic;
+  let stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:pick?{deviceId:{exact:pick.deviceId}}:true});}
+  catch(e){msg.textContent='Não consegui abrir o microfone. Confira a permissão do navegador.';return;}
+  const label=(stream.getAudioTracks()[0]||{}).label||'';
+  const ctx=new (window.AudioContext||window.webkitAudioContext)(),an=ctx.createAnalyser();an.fftSize=512;
+  ctx.createMediaStreamSource(stream).connect(an);
+  const buf=new Uint8Array(an.fftSize);let peak=0;const t0=performance.now();
+  msg.textContent='Ouvindo por 4 segundos…';
+  await new Promise(r=>{const loop=()=>{an.getByteTimeDomainData(buf);let m=0;for(const v of buf)m=Math.max(m,Math.abs(v-128));peak=Math.max(peak,m);lvl.style.width=Math.min(100,m/0.9)+'%';
+    if(performance.now()-t0<4000)requestAnimationFrame(loop);else r();};loop();});
+  stream.getTracks().forEach(t=>t.stop());try{ctx.close();}catch(e){}lvl.style.width='0';
+  const onde=HEAD_RX.test(label)?'microfone do fone':'microfone do celular';
+  msg.textContent=peak>14?`Ouvi você pelo ${onde}. Tudo certo!`:`Não ouvi nada pelo ${onde}. Fale mais perto ou troque a opção acima.`;
+}
+/* comandos de voz */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recOn=false,quietUntil=0;
+function setMicPill(on){$('micPill').hidden=!on;}
+function startCmd(){
+  if(!SR||!FONE.cmd||rec||!recOn)return;
+  rec=new SR();rec.lang='pt-BR';rec.continuous=true;rec.interimResults=false;
+  rec.onresult=e=>{const r=e.results[e.results.length-1];if(r&&r.isFinal)voiceCmd(r[0].transcript);};
+  rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){recOn=false;toast({emoji:'🎙️',bg:'#fde8e5'},'Microfone bloqueado','Libere o microfone pra usar comandos de voz');}};
+  rec.onend=()=>{rec=null;setMicPill(false);if(recOn)setTimeout(startCmd,500);};
+  try{rec.start();setMicPill(true);}catch(e){rec=null;}
+}
+function stopCmd(){recOn=false;if(rec){try{rec.stop();}catch(e){}}rec=null;setMicPill(false);}
+function nearestCat(cat,nome){
+  const m=me();const c=POIS.filter(p=>p.cats.includes(cat)&&visible(p)&&openState(p)!==false).map(p=>({p,d:dist(m,p)})).sort((a,b)=>a.d-b.d)[0];
+  if(!c){speak(`Não achei ${nome} aberto por perto.`);return;}
+  if(!st.cats.has(cat)){st.cats.add(cat);render();}
+  goTo(c.p);
+}
+function voiceCmd(raw){
+  if(Date.now()<quietUntil||(window.speechSynthesis&&speechSynthesis.speaking))return; // não responde à própria voz do app
+  const t=raw.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const a=$('ask');
+  if(askOpen()){
+    const grid=a.querySelector('.grid');
+    if(grid){const k=/bebedouro|agua/.test(t)?'agua':/sombra/.test(t)?'sombra':/loja/.test(t)?'loja':/nao tem|nada/.test(t)?'':null;
+      if(k!==null){const b=grid.querySelector(`[data-k="${k}"]`);if(b)b.click();return;}}
+    else if(!/aqui/.test(t)){
+      if(/\bnao\b/.test(t)){a.querySelector('.no')&&a.querySelector('.no').click();return;}
+      if(/\b(tem|sim|tem sim)\b/.test(t)){a.querySelector('.yes')&&a.querySelector('.yes').click();return;}
+    }
+  }
+  if(!/pit ?stop|pitstop|pit-stop|pitti stop/.test(t))return;
+  if(/agua|beber|sede|bebedouro/.test(t))waterNow();
+  else if(/banheiro/.test(t))nearestCat('banheiro','banheiro');
+  else if(/sombra/.test(t))nearestCat('sombra','sombra');
+  else if(/loja|mercado|padaria/.test(t))nearestCat('loja','loja');
+  else if(/reportar|adicionar|marcar/.test(t))askReport();
+  else speak('Pode pedir água, banheiro, sombra, loja ou reportar um ponto.');
+}
 let toastT;
 function toast(cat,title,sub){const t=$('toast');t.innerHTML=`<div class="ic" style="background:${cat.bg}">${cat.emoji}</div><div><b>${esc(title)}</b><br><span>${esc(sub||'')}</span></div>`;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3400);}
 function banner(txt,btn,fn){$('bannerTxt').textContent=txt;$('bannerBtn').textContent=btn;$('bannerBtn').onclick=fn;$('banner').classList.add('show');}
@@ -2891,7 +3029,7 @@ $('mvFile').onchange=async e=>{const f=e.target.files&&e.target.files[0];if(!f||
 $('mvName').oninput=e=>{st.mvName=e.target.value;saveMV();PERSONAS.custom.name=st.mvName||'Minha voz';};
 $('mvDetail').onchange=e=>{st.mvDetail=e.target.checked;saveMV();};
 if(st.mvName)PERSONAS.custom.name=st.mvName;
-function speak(t,force){
+function speak(t,force){quietUntil=Date.now()+Math.min(6000,900+String(t||'').length*70);
   if((!st.voice&&!force)||!('speechSynthesis' in window)||!t)return;
   try{const P=PERSONAS[st.persona];const u=new SpeechSynthesisUtterance(t);
     const v=VOICES.find(x=>x.voiceURI===st.voiceURI);if(v){u.voice=v;u.lang=v.lang;}else u.lang='pt-BR';
